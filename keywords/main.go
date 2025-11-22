@@ -2,9 +2,11 @@
 package main
 
 // 2. IMPORT
-import "fmt"
+import (
+	"fmt"
+	//"learning-go/mathutil"
+)
 
-//"learning-go/mathutil"
 //"math"
 
 /*func main() {
@@ -27,7 +29,7 @@ import "fmt"
 	fmt.Println(age)   // 32
 
 	fmt.Println(mathutil.Age)
-}*/
+}
 
 // 4. CONST
 /*const Pi = 3.14
