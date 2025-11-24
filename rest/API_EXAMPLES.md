@@ -14,14 +14,14 @@ curl -X GET http://localhost:8080/books/1
 
 ## Crear un nuevo libro
 ```bash
-# POST - Crear un nuevo libro con titulo y autor
-curl -X POST -H "Content-type: application/json" -d '{"title": "Go Programing", "author": "John Doe"}' http://localhost:8080/books
+# POST - Crear un nuevo libro con titulo, autor e imagen
+curl -X POST -H "Content-type: application/json" -d '{"title": "Go Programing", "author": "John Doe", "imageUrl": "https://example.com/book-cover.jpg"}' http://localhost:8080/books
 ```
 
 ## Actualizar un libro existente
 ```bash
 # PUT - Actualizar un libro existente (por ID) con nuevos datos
-curl -X PUT -H "Content-type: application/json" -d '{"title": "Advanced Go Programing", "author": "JANE Doe"}' http://localhost:8080/books/1
+curl -X PUT -H "Content-type: application/json" -d '{"title": "Advanced Go Programing", "author": "JANE Doe", "imageUrl": "https://example.com/new-cover.jpg"}' http://localhost:8080/books/1
 ```
 
 ## Eliminar un libro

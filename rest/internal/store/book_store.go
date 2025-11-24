@@ -22,7 +22,7 @@ func New(db *sql.DB) *store {
 }
 
 func (s *store) GetAll() ([]*model.Book, error) {
-	q := `SELECT id, title, author FROM books`
+	q := `SELECT id, title, author, image_url FROM books`
 
 	rows, err := s.db.Query(q)
 	if err != nil {
@@ -30,10 +30,10 @@ func (s *store) GetAll() ([]*model.Book, error) {
 	}
 	defer rows.Close()
 
-	var books []*model.Book
+	books := make([]*model.Book, 0)
 	for rows.Next() {
 		b := model.Book{}
-		if err := rows.Scan(&b.ID, &b.Title, &b.Author); err != nil {
+		if err := rows.Scan(&b.ID, &b.Title, &b.Author, &b.ImageURL); err != nil {
 			return nil, err
 		}
 
@@ -44,11 +44,11 @@ func (s *store) GetAll() ([]*model.Book, error) {
 }
 
 func (s *store) GetByID(id int) (*model.Book, error) {
-	q := `SELECT id, title, author FROM books WHERE id = ?`
+	q := `SELECT id, title, author, image_url FROM books WHERE id = ?`
 
 	b := model.Book{}
 
-	err := s.db.QueryRow(q, id).Scan(&b.ID, &b.Title, &b.Author)
+	err := s.db.QueryRow(q, id).Scan(&b.ID, &b.Title, &b.Author, &b.ImageURL)
 
 	if err != nil {
 		return nil, err
@@ -59,9 +59,9 @@ func (s *store) GetByID(id int) (*model.Book, error) {
 }
 
 func (s *store) Create(book *model.Book) (*model.Book, error) {
-	q := `INSERT INTO books (title, author) VALUES (?, ?)`
+	q := `INSERT INTO books (title, author, image_url) VALUES (?, ?, ?)`
 
-	resp, err := s.db.Exec(q, book.Title, book.Author)
+	resp, err := s.db.Exec(q, book.Title, book.Author, book.ImageURL)
 	if err != nil {
 		return nil, err
 	}
@@ -78,9 +78,9 @@ func (s *store) Create(book *model.Book) (*model.Book, error) {
 }
 
 func (s *store) Update(id int, book *model.Book) (*model.Book, error) {
-	q := `UPDATE books SET title = ?, author = ? WHERE id = ?`
+	q := `UPDATE books SET title = ?, author = ?, image_url = ? WHERE id = ?`
 
-	_, err := s.db.Exec(q, book.Title, book.Author, id)
+	_, err := s.db.Exec(q, book.Title, book.Author, book.ImageURL, id)
 	if err != nil {
 		return nil, err
 	}
